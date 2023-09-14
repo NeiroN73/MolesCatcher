@@ -3,12 +3,13 @@
 public class Score : BaseUI
 {
     [SerializeField] private ScoreView _scoreView;
+    [SerializeField] private int _scoreForWin;
     private MolesHandler _molesHandler;
-    private RestartHandler _restartHandler;
+    private EndGameHandler _restartHandler;
 
     private int _score;
 
-    public void Initialize(MolesHandler molesHandler, RestartHandler restartHandler)
+    public void Initialize(MolesHandler molesHandler, EndGameHandler restartHandler)
     {
         _molesHandler = molesHandler;
         _restartHandler = restartHandler;
@@ -25,5 +26,15 @@ public class Score : BaseUI
     {
         _score += reward;
         _scoreView.ChangeScore(_score);
+
+        TryWinGame();
+    }
+
+    private void TryWinGame()
+    {
+        if(_score >= _scoreForWin)
+        {
+            _restartHandler.WinGame();
+        }
     }
 }

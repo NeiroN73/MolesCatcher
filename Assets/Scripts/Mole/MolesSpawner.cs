@@ -1,11 +1,11 @@
 ﻿using System.Collections;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using Zenject;
 
 public class MolesSpawner : MonoBehaviour
 {
     private GameBoard _gameBoard;
-    [SerializeField] private Mole _molePrefab;
     [SerializeField] private MoleConfig[] _configs;
     private MolesHandler _molesHandler;
 
@@ -24,8 +24,8 @@ public class MolesSpawner : MonoBehaviour
             if (_gameBoard.SearchEmptyHole())
             {
                 Transform hole = _gameBoard.GetRandomEmptyHole();
-                var mole = Instantiate(_molePrefab, hole.position, Quaternion.identity);
-                mole.Initialize(_configs[Random.Range(0, _configs.Length)]); //do with prefabs
+                var mole = _configs[Random.Range(0, _configs.Length)].GetMole(hole.position);
+                mole.Initialize();
                 _molesHandler.AddMole(mole);
             }
             yield return new WaitForSeconds(1); // fix later

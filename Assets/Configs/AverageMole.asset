@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72148fad85ab7f42af73b3653b12efb, type: 3}
   m_Name: AverageMole
   m_EditorClassIdentifier: 
-  _health: 3
-  _time: 4
-  _material: {fileID: 2100000, guid: 9c4fdf8f345978f49ab59d5b52760cc0, type: 2}
+  <Health>k__BackingField: 2
+  <Time>k__BackingField: 2
+  <Prefab>k__BackingField: {fileID: 4777263184358251003, guid: 73e0f7a45e3071042baba0c75e0de90e, type: 3}

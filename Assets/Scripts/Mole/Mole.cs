@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Mole : MonoBehaviour
 {
-    private MoleConfig _config;
+    [SerializeField] private MoleConfig _config;
 
     private int _currentHealth;
 
     public event Action<Mole, int> MoleCatched;
     public event Action<Mole, int> MoleEscaped;
 
-    public void Initialize(MoleConfig config)
+    public void Initialize()
     {
-        _config = config;
-
-        _currentHealth = config.Health;
+        _currentHealth = _config.Health;
 
         StartCoroutine(Delay());
     }

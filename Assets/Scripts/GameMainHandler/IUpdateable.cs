@@ -4,5 +4,5 @@ public interface IUpdateable
 {
     void Tick();
 
-    event Action<IUpdateable> CloseUpdate;
+    //event Action<IUpdateable> CloseUpdate;
 }

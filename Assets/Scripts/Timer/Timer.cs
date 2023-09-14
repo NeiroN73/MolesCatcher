@@ -4,20 +4,16 @@ using UnityEngine.UIElements;
 
 public class Timer : MonoBehaviour, IUpdateable
 {
-    private RestartHandler _restartHandler;
-    private TimeState _timeState;
+    private EndGameHandler _restartHandler;
 
     [SerializeField] private TimerView _timerView;
 
     [SerializeField] private int _gameTime;
     private float _timerProgress;
 
-    public event Action<IUpdateable> CloseUpdate;
-
-    public void Initialize(RestartHandler restartHandler, TimeState timeState)
+    public void Initialize(EndGameHandler restartHandler)
     {
         _restartHandler = restartHandler;
-        _timeState = timeState;
 
         _timerView.Initialize();
 
@@ -29,11 +25,10 @@ public class Timer : MonoBehaviour, IUpdateable
         _timerProgress -= Time.deltaTime;
         _timerView.ChangeTime(_timerProgress);
 
-        if (_timerProgress <= 0)
+        if (_timerProgress < 0)
         {
+            _timerProgress = 0;
             _restartHandler.LoseGame();
-            _timeState.Stop();
-            _timerProgress = _gameTime;
         }
     }
 }

@@ -3,11 +3,12 @@
 [CreateAssetMenu(fileName = "MoleConfig")]
 public class MoleConfig : ScriptableObject
 {
-    [SerializeField] private int _health;
-    [SerializeField] private int _time;
-    [SerializeField] private Material _material;
+    [field: SerializeField] public int Health { get; private set; }
+    [field: SerializeField] public int Time { get; private set; }
+    [field: SerializeField] public Mole Prefab { get; private set; }
 
-    public int Health { get => _health; }
-    public int Time { get => _time; }
-    public Material Material { get => _material; }
+    public Mole GetMole(Vector3 spawnPosition)
+    {
+        return Instantiate(Prefab, spawnPosition, Quaternion.identity);
+    }
 }

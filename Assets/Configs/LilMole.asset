@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72148fad85ab7f42af73b3653b12efb, type: 3}
   m_Name: LilMole
   m_EditorClassIdentifier: 
-  _health: 2
-  _time: 3
-  _material: {fileID: 2100000, guid: 492968faabdf81d4794cf836dd7114c6, type: 2}
+  <Health>k__BackingField: 1
+  <Time>k__BackingField: 1
+  <Prefab>k__BackingField: {fileID: 4777263184358251003, guid: 3ffb1a69f692dc94bbd18186e4599cbc, type: 3}

@@ -9,8 +9,8 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Score _score;
     [SerializeField] private Health _health;
     [SerializeField] private Timer _timer;
-    [SerializeField] private InputSystem _inputSystem; // think about it
-    [SerializeField] private RestartHandler _restartHandler;
+    [SerializeField] private EndGameHandler _restartHandler;
+    private InputSystem _inputSystem; // think about it
     private MolesHandler _molesHandler;
     private MolesCatcher _molesCatcher;
     private TimeState _timeState;
@@ -20,9 +20,9 @@ public class GameHandler : MonoBehaviour
     public void Initialize()
     {
         _mainMenuView.Initialize();
-        _restartHandler.Initialize();
-        _molesHandler = new();
         _timeState = new();
+        _restartHandler.Initialize(_timeState);
+        _molesHandler = new();
 
         _mainMenuView.OnHealthMode += HealthMode;
         _mainMenuView.OnTimeMode += TimeMode;
@@ -36,17 +36,25 @@ public class GameHandler : MonoBehaviour
 
     private void TimeMode()
     {
-        _timer.Initialize(_restartHandler, _timeState);
+        _timer.Initialize(_restartHandler);
         _updates.Add(_timer);
         StartGame();
     }
 
     private void StartGame()
     {
+        _inputSystem = new();
         _molesCatcher = new(_inputSystem);
         _gameBoard.Initialize();
         _molesSpawner.Initialize(_gameBoard, _molesHandler);
         _score.Initialize(_molesHandler, _restartHandler);
+
+        AddSystems();
+    }
+
+    private void AddSystems()
+    {
+        _updates.Add(_inputSystem);
     }
 
     private void Start()

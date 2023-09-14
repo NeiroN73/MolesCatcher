@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-public class InputSystem : MonoBehaviour
+public class InputSystem : IUpdateable
 {
     public event Action OnClicked;
 
-    private void Update()
+    public void Tick()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
             OnClicked?.Invoke();
     }
 }
