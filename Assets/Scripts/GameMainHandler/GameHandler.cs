@@ -10,10 +10,11 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Health _health;
     [SerializeField] private Timer _timer;
     [SerializeField] private EndGameHandler _restartHandler;
-    private InputSystem _inputSystem; // think about it
+    private InputSystem _inputSystem;
     private MolesHandler _molesHandler;
     private MolesCatcher _molesCatcher;
     private TimeState _timeState;
+    private CameraHandler _cameraHandler;
 
     private List<IUpdateable> _updates = new();
 
@@ -48,6 +49,7 @@ public class GameHandler : MonoBehaviour
         _gameBoard.Initialize();
         _molesSpawner.Initialize(_gameBoard, _molesHandler);
         _score.Initialize(_molesHandler, _restartHandler);
+        _cameraHandler = new(_gameBoard);
 
         AddSystems();
     }
@@ -57,24 +59,11 @@ public class GameHandler : MonoBehaviour
         _updates.Add(_inputSystem);
     }
 
-    private void Start()
-    {
-        for (int i = 0; i < _updates.Count; i++)
-        {
-            //_updates[i].CloseUpdate += RemoveUpdate;
-        }
-    }
-
     private void Update()
     {
         for(int i = 0; i < _updates.Count; i++)
         {
             _updates[i].Tick();
         }
-    }
-
-    private void RemoveUpdate(IUpdateable update)
-    {
-        _updates.Remove(update);
     }
 }

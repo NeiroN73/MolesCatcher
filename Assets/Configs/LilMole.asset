@@ -15,3 +15,5 @@ MonoBehaviour:
   <Health>k__BackingField: 1
   <Time>k__BackingField: 1
   <Prefab>k__BackingField: {fileID: 4777263184358251003, guid: 3ffb1a69f692dc94bbd18186e4599cbc, type: 3}
+  <EcsapeParticle>k__BackingField: {fileID: 9190855089730443053, guid: ecb3199043cf09d4ea0fc86969e4d116, type: 3}
+  <CatchParticle>k__BackingField: {fileID: 2978787614632628155, guid: 04b07def34d4f8d46b57625d8248fc16, type: 3}

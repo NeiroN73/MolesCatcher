@@ -9,6 +9,8 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private Hole _holePrefab;
     private List<Hole> _holes = new();
 
+    public int CameraSizeCoefficient { get => _boardSize; }
+
     public void Initialize()
     {
         BuildGameBoard();

@@ -25,6 +25,7 @@ public class Mole : MonoBehaviour
         if(_currentHealth <= 0)
         {
             MoleCatched?.Invoke(this, _config.Health);
+            PlayParticle(_config.CatchParticle);
             Destroy(gameObject);
         }
     }
@@ -33,6 +34,12 @@ public class Mole : MonoBehaviour
     {
         yield return new WaitForSeconds(_config.Time);
         MoleEscaped?.Invoke(this, _config.Time);
+        PlayParticle(_config.EcsapeParticle);
         Destroy(gameObject);
+    }
+
+    private void PlayParticle(ParticleSystem particle)
+    {
+        Instantiate(particle, transform.position, Quaternion.identity);
     }
 }
