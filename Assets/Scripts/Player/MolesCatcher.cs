@@ -1,18 +1,19 @@
 using System;
 using UnityEngine;
 
-public class MolesCatcher
+public class MolesCatcher : IDisposable
 {
-    private InputSystem _inputSystem;
-    private Camera _camera;
+    private readonly InputSystem _inputSystem;
+    private readonly Camera _camera;
+
+    private const int CLICK_DAMAGE = 1;
 
     public MolesCatcher(InputSystem inputSystem)
     {
         _inputSystem = inputSystem;
-
-        _inputSystem.OnClicked += Click;//отписку
-
         _camera = Camera.main;
+
+        _inputSystem.OnClicked += Click;
     }
 
     private void Click()
@@ -23,9 +24,12 @@ public class MolesCatcher
         {
             if(hit.collider.TryGetComponent(out Mole mole))
             {
-                //MoleCatched?.Invoke(mole.RewardForCatching);
-                mole.ApplyDamage(1);
+                mole.ApplyDamage(CLICK_DAMAGE);
             }
         }
+    }
+    public void Dispose()
+    {
+        _inputSystem.OnClicked -= Click;
     }
 }

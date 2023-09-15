@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
-public class EndGameHandler : MonoBehaviour
+public class EndGameHandler : MonoBehaviour, IDisposable
 {
     private TimeState _timeState;
     [SerializeField] private RestartMenuView _restartMenuView;
@@ -13,7 +13,7 @@ public class EndGameHandler : MonoBehaviour
     {
         _timeState = timeState;
 
-        _restartMenuView.OnRestartClicked += RestartLevel; // отписка
+        _restartMenuView.OnRestartClicked += RestartLevel;
     }
 
     public void RestartLevel()
@@ -33,5 +33,10 @@ public class EndGameHandler : MonoBehaviour
         _restartMenuView.Initialize();
         _restartMenuView.SetEndGameText(_loseMessage);
         _timeState.Stop();
+    }
+
+    public void Dispose()
+    {
+        _restartMenuView.OnRestartClicked -= RestartLevel;
     }
 }

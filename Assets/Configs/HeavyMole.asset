@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeavyMole
   m_EditorClassIdentifier: 
   <Health>k__BackingField: 3
-  <Time>k__BackingField: 3
+  <Time>k__BackingField: 1
   <Prefab>k__BackingField: {fileID: 4777263184358251003, guid: 5f5113629bfa3b14d8044e7ab4a6d5f1, type: 3}
   <EcsapeParticle>k__BackingField: {fileID: 9190855089730443053, guid: ecb3199043cf09d4ea0fc86969e4d116, type: 3}
   <CatchParticle>k__BackingField: {fileID: 2978787614632628155, guid: 04b07def34d4f8d46b57625d8248fc16, type: 3}

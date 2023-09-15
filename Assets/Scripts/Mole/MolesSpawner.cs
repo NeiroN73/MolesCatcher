@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using Zenject;
 
 public class MolesSpawner : MonoBehaviour
 {

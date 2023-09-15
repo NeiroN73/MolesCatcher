@@ -1,5 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum GameMode
+{
+    None,
+    HealthMode,
+    TimeMode
+}
 
 public class GameHandler : MonoBehaviour
 {
@@ -16,33 +25,62 @@ public class GameHandler : MonoBehaviour
     private TimeState _timeState;
     private CameraHandler _cameraHandler;
 
-    private List<IUpdateable> _updates = new();
+    private GameMode _gameMode;
 
-    public void Initialize()
+    private List<IUpdateable> _updates = new();
+    private List<IDisposable> _disposables = new();
+
+    private void Start()
+    {
+        StartCoroutine(InitializeApp());
+    }
+
+    private IEnumerator InitializeApp()
+    {
+        InitializeMenu();
+        Subscribes();
+        yield return new WaitUntil(SetMode);
+        InitializeGameplay();
+    }
+
+    private void InitializeMenu()
     {
         _mainMenuView.Initialize();
         _timeState = new();
         _restartHandler.Initialize(_timeState);
         _molesHandler = new();
+    }
 
+    private void Subscribes()
+    {
         _mainMenuView.OnHealthMode += HealthMode;
         _mainMenuView.OnTimeMode += TimeMode;
     }
 
-    private void HealthMode()
+    private bool SetMode()
     {
-        _health.Initialize(_molesHandler, _restartHandler);
-        StartGame();
+        switch(_gameMode)
+        {
+            case GameMode.HealthMode:
+                _health.Initialize(_molesHandler, _restartHandler);
+                _disposables.Add(_health);
+                return true;
+
+            case GameMode.TimeMode:
+                _timer.Initialize(_restartHandler);
+                _updates.Add(_timer);
+                return true;
+
+            default: 
+                return false;
+        }
     }
 
-    private void TimeMode()
-    {
-        _timer.Initialize(_restartHandler);
-        _updates.Add(_timer);
-        StartGame();
-    }
+    private void HealthMode() => _gameMode = GameMode.HealthMode;
+    private void TimeMode() => _gameMode = GameMode.TimeMode;
 
-    private void StartGame()
+
+    private void InitializeGameplay()
     {
         _inputSystem = new();
         _molesCatcher = new(_inputSystem);
@@ -51,13 +89,13 @@ public class GameHandler : MonoBehaviour
         _score.Initialize(_molesHandler, _restartHandler);
         _cameraHandler = new(_gameBoard);
 
-        AddSystems();
-    }
+        _disposables.Add(_score);
+        _disposables.Add(_molesCatcher);
+        _disposables.Add(_restartHandler);
 
-    private void AddSystems()
-    {
         _updates.Add(_inputSystem);
     }
+
 
     private void Update()
     {
@@ -65,5 +103,21 @@ public class GameHandler : MonoBehaviour
         {
             _updates[i].Tick();
         }
+    }
+
+    private void OnDisable()
+    {
+        for(int i = 0; i < _disposables.Count; i++)
+        {
+            _disposables[i].Dispose();
+        }
+
+        Unsubscribes();
+    }
+
+    private void Unsubscribes()
+    {
+        _mainMenuView.OnHealthMode -= HealthMode;
+        _mainMenuView.OnTimeMode -= TimeMode;
     }
 }

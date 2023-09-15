@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDisposable
 {
     [SerializeField] private HealthView _healthView;
     private MolesHandler _molesHandler;
@@ -8,12 +9,17 @@ public class Health : MonoBehaviour
 
     [SerializeField] private int _health;
 
+    public void Dispose()
+    {
+        _molesHandler.PlayerDamaged -= OnApplyDamage;
+    }
+
     public void Initialize(MolesHandler molesHandler, EndGameHandler restartHandler)
     {
         _molesHandler = molesHandler;
         _restartHandler = restartHandler;
 
-        molesHandler.PlayerDamaged += OnApplyDamage; //отписку
+        _molesHandler.PlayerDamaged += OnApplyDamage; //отписку
 
         _healthView.Initialize();
         _healthView.ChangeHealth(_health);
@@ -29,7 +35,7 @@ public class Health : MonoBehaviour
 
     private void TryLoseGame()
     {
-        if(_health < 0)
+        if(_health < 1)
         {
             _health = 0;
             _healthView.ChangeHealth(_health);

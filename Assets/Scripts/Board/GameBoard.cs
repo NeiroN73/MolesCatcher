@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,6 +50,7 @@ public class GameBoard : MonoBehaviour
     {
         foreach(var hole in _holes)
         {
+            hole.StartRay();
             if(hole.IsEmpty)
             {
                 return true;
