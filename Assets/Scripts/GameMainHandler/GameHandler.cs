@@ -7,7 +7,7 @@ public enum GameMode
 {
     None,
     HealthMode,
-    TimeMode
+    TimerMode
 }
 
 public class GameHandler : MonoBehaviour
@@ -30,20 +30,15 @@ public class GameHandler : MonoBehaviour
     private List<IUpdateable> _updates = new();
     private List<IDisposable> _disposables = new();
 
-    private void Start()
+    private IEnumerator Start()
     {
-        StartCoroutine(InitializeApp());
-    }
-
-    private IEnumerator InitializeApp()
-    {
-        InitializeMenu();
+        InitializeApp();
         Subscribes();
         yield return new WaitUntil(SetMode);
         InitializeGameplay();
     }
 
-    private void InitializeMenu()
+    private void InitializeApp()
     {
         _mainMenuView.Initialize();
         _timeState = new();
@@ -53,8 +48,8 @@ public class GameHandler : MonoBehaviour
 
     private void Subscribes()
     {
-        _mainMenuView.OnHealthMode += HealthMode;
-        _mainMenuView.OnTimeMode += TimeMode;
+        _mainMenuView.HealthModeSelected += HealthMode;
+        _mainMenuView.TimerModeSelected += TimerMode;
     }
 
     private bool SetMode()
@@ -66,7 +61,7 @@ public class GameHandler : MonoBehaviour
                 _disposables.Add(_health);
                 return true;
 
-            case GameMode.TimeMode:
+            case GameMode.TimerMode:
                 _timer.Initialize(_restartHandler);
                 _updates.Add(_timer);
                 return true;
@@ -77,7 +72,7 @@ public class GameHandler : MonoBehaviour
     }
 
     private void HealthMode() => _gameMode = GameMode.HealthMode;
-    private void TimeMode() => _gameMode = GameMode.TimeMode;
+    private void TimerMode() => _gameMode = GameMode.TimerMode;
 
 
     private void InitializeGameplay()
@@ -117,7 +112,7 @@ public class GameHandler : MonoBehaviour
 
     private void Unsubscribes()
     {
-        _mainMenuView.OnHealthMode -= HealthMode;
-        _mainMenuView.OnTimeMode -= TimeMode;
+        _mainMenuView.HealthModeSelected -= HealthMode;
+        _mainMenuView.TimerModeSelected -= TimerMode;
     }
 }

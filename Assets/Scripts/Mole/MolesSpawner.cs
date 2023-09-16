@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class MolesSpawner : MonoBehaviour
 {
+    [SerializeField] private MoleFactory[] _configs;
+    [SerializeField] private int _spawnDelay;
+
     private GameBoard _gameBoard;
-    [SerializeField] private MoleConfig[] _configs;
     private MolesHandler _molesHandler;
 
     public void Initialize(GameBoard gameBoard, MolesHandler molesHandler)
@@ -21,12 +23,13 @@ public class MolesSpawner : MonoBehaviour
         {
             if (_gameBoard.SearchEmptyHole())
             {
-                Transform hole = _gameBoard.GetRandomEmptyHole();
-                var mole = _configs[Random.Range(0, _configs.Length)].GetMole(hole.position);
+                var hole = _gameBoard.GetRandomEmptyHole();
+                var randomConfig = _configs[Random.Range(0, _configs.Length)];
+                var mole = randomConfig.GetMole(hole.position);
                 mole.Initialize();
                 _molesHandler.AddMole(mole);
             }
-            yield return new WaitForSeconds(1); // fix later
+            yield return new WaitForSeconds(_spawnDelay);
         }
     }
 }

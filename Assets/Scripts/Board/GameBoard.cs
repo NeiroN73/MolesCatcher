@@ -6,6 +6,7 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private int _boardSize;
     [SerializeField] private Transform _boardQuad;
     [SerializeField] private Hole _holePrefab;
+
     private List<Hole> _holes = new();
 
     public int CameraSizeCoefficient { get => _boardSize; }
@@ -30,7 +31,19 @@ public class GameBoard : MonoBehaviour
                 hole.transform.localPosition = new Vector3(x - offset, 0, y - offset);
             }
         }
-        
+    }
+
+    public Vector3 GetCameraBorders()
+    {
+        var rightTop = new Vector3(_boardSize * 0.5f, 0, _boardSize * 0.5f);
+        //var leftDown = new Vector3(-_boardSize * 0.5f, 0, -_boardSize * 0.5f);
+        return rightTop;
+    }
+
+    public Vector3 GetCameraBorders2()
+    {
+        var leftDown = new Vector3(-_boardSize * 0.5f, 0, -_boardSize * 0.5f);
+        return leftDown;
     }
 
     public Transform GetRandomEmptyHole()

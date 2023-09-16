@@ -12,6 +12,6 @@ public class TimerView : BaseUI
 
     public void ChangeTime(float time)
     {
-        _timerText.text = time.ToString(); // use textBuilder
+        _timerText.text = time.ToString();
     }
 }

@@ -13,10 +13,10 @@ public class MolesCatcher : IDisposable
         _inputSystem = inputSystem;
         _camera = Camera.main;
 
-        _inputSystem.OnClicked += Click;
+        _inputSystem.Clicked += OnClicked;
     }
 
-    private void Click()
+    private void OnClicked()
     {
         RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
@@ -28,8 +28,9 @@ public class MolesCatcher : IDisposable
             }
         }
     }
+
     public void Dispose()
     {
-        _inputSystem.OnClicked -= Click;
+        _inputSystem.Clicked -= OnClicked;
     }
 }

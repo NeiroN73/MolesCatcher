@@ -5,28 +5,28 @@ using UnityEngine.UI;
 public class MainMenuView : BaseUI
 {
     [SerializeField] private Button _healthModeButton;
-    [SerializeField] private Button _timeModeButton;
+    [SerializeField] private Button _timerModeButton;
 
-    public event Action OnHealthMode;
-    public event Action OnTimeMode;
+    public event Action HealthModeSelected;
+    public event Action TimerModeSelected;
 
     public void Initialize()
     {
         Show();
 
-        _healthModeButton.onClick.AddListener(OnHealthModeClicked);
-        _timeModeButton.onClick.AddListener(OnTimeModeClicked);
+        _healthModeButton.onClick.AddListener(OnHealthModeSelected);
+        _timerModeButton.onClick.AddListener(OnTimeModeSelected);
     }
 
-    private void OnHealthModeClicked()
+    private void OnHealthModeSelected()
     {
-        OnHealthMode.Invoke();
+        HealthModeSelected.Invoke();
         Hide();
     }
 
-    private void OnTimeModeClicked()
+    private void OnTimeModeSelected()
     {
-        OnTimeMode.Invoke();
+        TimerModeSelected.Invoke();
         Hide();
     }
 }

@@ -2,11 +2,10 @@
 
 public class Timer : MonoBehaviour, IUpdateable
 {
-    private EndGameHandler _restartHandler;
-
     [SerializeField] private TimerView _timerView;
-
     [SerializeField] private int _gameTime;
+
+    private EndGameHandler _restartHandler;
     private float _timerProgress;
 
     public void Initialize(EndGameHandler restartHandler)

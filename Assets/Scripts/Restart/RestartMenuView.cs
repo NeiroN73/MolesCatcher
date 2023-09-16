@@ -8,16 +8,16 @@ public class RestartMenuView : BaseUI
     [SerializeField] private Button _restartButton;
     [SerializeField] private TextMeshProUGUI _endGameText;
 
-    public event Action OnRestartClicked;
+    public event Action RestartClicked;
 
     public void Initialize()
     {
         Show();
 
-        _restartButton.onClick.AddListener(OnRestartClick);
+        _restartButton.onClick.AddListener(OnRestartClicked);
     }
 
-    private void OnRestartClick() => OnRestartClicked.Invoke();
+    private void OnRestartClicked() => RestartClicked.Invoke();
 
     public void SetEndGameText(string text) => _endGameText.text = text;
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "MoleConfig")]
-public class MoleConfig : ScriptableObject
+[CreateAssetMenu(fileName = "MoleFactory")]
+public class MoleFactory : ScriptableObject
 {
     [field: SerializeField] public int Health { get; private set; }
     [field: SerializeField] public int Time { get; private set; }

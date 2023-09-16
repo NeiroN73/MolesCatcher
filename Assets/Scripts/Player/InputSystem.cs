@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class InputSystem : IUpdateable
 {
-    public event Action OnClicked;
+    public event Action Clicked;
 
     public void Tick()
     {
         if (Input.GetMouseButtonDown(0))
-            OnClicked?.Invoke();
+            Clicked?.Invoke();
     }
 }

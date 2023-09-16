@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mole : MonoBehaviour
 {
-    [SerializeField] private MoleConfig _config;
+    [SerializeField] private MoleFactory _config;
 
     private int _currentHealth;
 
@@ -15,7 +15,7 @@ public class Mole : MonoBehaviour
     {
         _currentHealth = _config.Health;
 
-        StartCoroutine(Delay());
+        StartCoroutine(EscapeTimer());
     }
 
     public void ApplyDamage(int damage)
@@ -30,7 +30,7 @@ public class Mole : MonoBehaviour
         }
     }
 
-    private IEnumerator Delay()
+    private IEnumerator EscapeTimer()
     {
         yield return new WaitForSeconds(_config.Time);
         MoleEscaped?.Invoke(this, _config.Time);
