@@ -7,16 +7,16 @@ public class Score : MonoBehaviour, IDisposable
     [SerializeField] private int _winningScore;
     [SerializeField] private float _catchingRewardCoefficient;
 
-    private MolesHandler _molesHandler;
+    private MolesContainer _molesContainer;
     private EndGameHandler _endGameHandler;
     private int _score;
 
-    public void Initialize(MolesHandler molesHandler, EndGameHandler restartHandler)
+    public void Initialize(MolesContainer molesHandler, EndGameHandler restartHandler)
     {
-        _molesHandler = molesHandler;
+        _molesContainer = molesHandler;
         _endGameHandler = restartHandler;
 
-        _molesHandler.MoleCatchingReward += OnScoreAdded;
+        _molesContainer.MoleCatchingReward += OnScoreAdded;
 
         _scoreView.Initialize();
         _scoreView.ChangeScore(_score);
@@ -28,12 +28,7 @@ public class Score : MonoBehaviour, IDisposable
         _score += (int)value;
         _scoreView.ChangeScore(_score);
 
-        TryWinGame();
-    }
-
-    private void TryWinGame()
-    {
-        if(_score >= _winningScore)
+        if (_score >= _winningScore)
         {
             _endGameHandler.WinGame();
         }
@@ -41,6 +36,6 @@ public class Score : MonoBehaviour, IDisposable
 
     public void Dispose()
     {
-        _molesHandler.MoleCatchingReward -= OnScoreAdded;
+        _molesContainer.MoleCatchingReward -= OnScoreAdded;
     }
 }

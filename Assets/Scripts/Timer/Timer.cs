@@ -5,12 +5,12 @@ public class Timer : MonoBehaviour, IUpdateable
     [SerializeField] private TimerView _timerView;
     [SerializeField] private int _gameTime;
 
-    private EndGameHandler _restartHandler;
+    private EndGameHandler _endGameHandler;
     private float _timerProgress;
 
     public void Initialize(EndGameHandler restartHandler)
     {
-        _restartHandler = restartHandler;
+        _endGameHandler = restartHandler;
 
         _timerView.Initialize();
 
@@ -25,7 +25,7 @@ public class Timer : MonoBehaviour, IUpdateable
         if (_timerProgress < 0)
         {
             _timerProgress = 0;
-            _restartHandler.LoseGame();
+            _endGameHandler.LoseGame();
         }
     }
 }

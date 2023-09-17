@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class MolesHandler
+public class MolesContainer
 {
     private List<Mole> _moles = new();
 

@@ -8,13 +8,13 @@ public class MolesSpawner : MonoBehaviour
     [SerializeField] private int _spawnDelay;
 
     private GameBoard _gameBoard;
-    private MolesHandler _molesHandler;
+    private MolesContainer _molesContainer;
     private MoleFactory _moleFactory;
 
-    public void Initialize(GameBoard gameBoard, MolesHandler molesHandler)
+    public void Initialize(GameBoard gameBoard, MolesContainer molesHandler)
     {
         _gameBoard = gameBoard;
-        _molesHandler = molesHandler;
+        _molesContainer = molesHandler;
         _moleFactory = new();
 
         StartCoroutine(SpawnMole());
@@ -30,7 +30,7 @@ public class MolesSpawner : MonoBehaviour
                 var randomPrefab = _molePrefabs[Random.Range(0, _molePrefabs.Count)];
                 var mole = _moleFactory.GetMole(randomPrefab, hole.position);
                 mole.Initialize();
-                _molesHandler.AddMole(mole);
+                _molesContainer.AddMole(mole);
             }
             yield return new WaitForSeconds(_spawnDelay);
         }

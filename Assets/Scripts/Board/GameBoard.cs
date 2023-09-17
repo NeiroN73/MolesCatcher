@@ -9,8 +9,6 @@ public class GameBoard : MonoBehaviour
 
     private List<Hole> _holes = new();
 
-    public int CameraSizeCoefficient { get => _boardSize; }
-
     public void Initialize()
     {
         BuildGameBoard();

@@ -6,15 +6,15 @@ public class Health : MonoBehaviour, IDisposable
     [SerializeField] private HealthView _healthView;
     [SerializeField] private int _health;
 
-    private MolesHandler _molesHandler;
+    private MolesContainer _molesContainer;
     private EndGameHandler _endGameHandler;
 
-    public void Initialize(MolesHandler molesHandler, EndGameHandler restartHandler)
+    public void Initialize(MolesContainer molesHandler, EndGameHandler restartHandler)
     {
-        _molesHandler = molesHandler;
+        _molesContainer = molesHandler;
         _endGameHandler = restartHandler;
 
-        _molesHandler.PlayerDamaged += OnDamageApplied;
+        _molesContainer.PlayerDamaged += OnDamageApplied;
 
         _healthView.Initialize();
         _healthView.ChangeHealth(_health);
@@ -25,12 +25,7 @@ public class Health : MonoBehaviour, IDisposable
         _health -= damage;
         _healthView.ChangeHealth(_health);
 
-        TryLoseGame();
-    }
-
-    private void TryLoseGame()
-    {
-        if(_health < 1)
+        if (_health < 1)
         {
             _health = 0;
             _healthView.ChangeHealth(_health);
@@ -40,6 +35,6 @@ public class Health : MonoBehaviour, IDisposable
 
     public void Dispose()
     {
-        _molesHandler.PlayerDamaged -= OnDamageApplied;
+        _molesContainer.PlayerDamaged -= OnDamageApplied;
     }
 }

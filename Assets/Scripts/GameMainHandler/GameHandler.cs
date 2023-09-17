@@ -20,7 +20,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Timer _timer;
     [SerializeField] private EndGameHandler _restartHandler;
     private InputSystem _inputSystem;
-    private MolesHandler _molesHandler;
+    private MolesContainer _molesContainer;
     private MolesCatcher _molesCatcher;
     private TimeState _timeState;
     private CameraHandler _cameraHandler;
@@ -43,7 +43,7 @@ public class GameHandler : MonoBehaviour
         _mainMenuView.Initialize();
         _timeState = new();
         _restartHandler.Initialize(_timeState);
-        _molesHandler = new();
+        _molesContainer = new();
     }
 
     private void Subscribes()
@@ -57,7 +57,7 @@ public class GameHandler : MonoBehaviour
         switch(_gameMode)
         {
             case GameMode.HealthMode:
-                _health.Initialize(_molesHandler, _restartHandler);
+                _health.Initialize(_molesContainer, _restartHandler);
                 _disposables.Add(_health);
                 return true;
 
@@ -80,8 +80,8 @@ public class GameHandler : MonoBehaviour
         _inputSystem = new();
         _molesCatcher = new(_inputSystem);
         _gameBoard.Initialize();
-        _molesSpawner.Initialize(_gameBoard, _molesHandler);
-        _score.Initialize(_molesHandler, _restartHandler);
+        _molesSpawner.Initialize(_gameBoard, _molesContainer);
+        _score.Initialize(_molesContainer, _restartHandler);
         _cameraHandler = new(_gameBoard);
 
         _disposables.Add(_score);
