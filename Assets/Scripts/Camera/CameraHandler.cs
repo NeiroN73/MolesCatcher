@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class CameraHandler
@@ -12,28 +10,32 @@ public class CameraHandler
         _gameBoard = gameBoard;
         _camera = Camera.main;
 
-        Vector3 cameraToObject = _gameBoard.transform.position - Camera.main.transform.position;
-        float distance = -Vector3.Project(cameraToObject, Camera.main.transform.forward).y;
+        SetCameraHeight();
+    }
 
-        Vector3 leftBot = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, distance));
-        Vector3 rightTop = Camera.main.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, _camera.pixelHeight, distance));
-
-        Debug.Log(leftBot);
-        Debug.Log(rightTop);
-        Debug.Log(_gameBoard.GetCameraBorders());
-        Debug.Log(_gameBoard.GetCameraBorders2());
-
-        float x_left = Mathf.Abs(leftBot.x);
-        float x_right = Mathf.Abs(rightTop.x);
-        float z_top = Mathf.Abs(rightTop.z);
-        float z_bot = Mathf.Abs(leftBot.z);
-
-        while (Mathf.Abs(_gameBoard.GetCameraBorders().x) < x_left || Mathf.Abs(_gameBoard.GetCameraBorders().z) < x_right ||
-            Mathf.Abs(_gameBoard.GetCameraBorders2().x) < z_top || Mathf.Abs(_gameBoard.GetCameraBorders2().z) < z_bot)
+    private void SetCameraHeight()
+    {
+        _camera.transform.position = Vector3.zero;
+        for (int i = 0; i < 1000; i++)
         {
-            _camera.transform.position = new Vector3(0, _camera.transform.position.y + 1, _camera.transform.position.z + 1);
+            float distance = Vector3.Distance(_gameBoard.transform.position, _camera.transform.position);
+
+            Vector3 leftBot = _camera.ScreenToWorldPoint(new Vector3(0, 0, distance));
+            Vector3 rightTop = _camera.ScreenToWorldPoint(
+                new Vector3(_camera.pixelWidth, _camera.pixelHeight, distance));
+
+            if (_gameBoard.GetLeftDownCorner().x > leftBot.x ||
+                _gameBoard.GetRightUpCorner().x < rightTop.x)
+            {
+                return;
+            }
+            else
+            {
+                _camera.transform.position =
+                    new Vector3(_camera.transform.position.x,
+                    _camera.transform.position.y + 1,
+                    _camera.transform.position.z);
+            }
         }
-
-
     }
 }

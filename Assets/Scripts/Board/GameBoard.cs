@@ -33,14 +33,13 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    public Vector3 GetCameraBorders()
+    public Vector3 GetRightUpCorner()
     {
         var rightTop = new Vector3(_boardSize * 0.5f, 0, _boardSize * 0.5f);
-        //var leftDown = new Vector3(-_boardSize * 0.5f, 0, -_boardSize * 0.5f);
         return rightTop;
     }
 
-    public Vector3 GetCameraBorders2()
+    public Vector3 GetLeftDownCorner()
     {
         var leftDown = new Vector3(-_boardSize * 0.5f, 0, -_boardSize * 0.5f);
         return leftDown;

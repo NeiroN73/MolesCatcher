@@ -16,7 +16,7 @@ public class Score : MonoBehaviour, IDisposable
         _molesHandler = molesHandler;
         _endGameHandler = restartHandler;
 
-        _molesHandler.MoleCatchingReward += OnScoreAdded; //отписку
+        _molesHandler.MoleCatchingReward += OnScoreAdded;
 
         _scoreView.Initialize();
         _scoreView.ChangeScore(_score);

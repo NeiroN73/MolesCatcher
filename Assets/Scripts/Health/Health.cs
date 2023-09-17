@@ -14,7 +14,7 @@ public class Health : MonoBehaviour, IDisposable
         _molesHandler = molesHandler;
         _endGameHandler = restartHandler;
 
-        _molesHandler.PlayerDamaged += OnDamageApplied; //отписку
+        _molesHandler.PlayerDamaged += OnDamageApplied;
 
         _healthView.Initialize();
         _healthView.ChangeHealth(_health);

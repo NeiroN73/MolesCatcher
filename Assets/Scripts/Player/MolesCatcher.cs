@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MolesCatcher : IDisposable
 {
     private readonly InputSystem _inputSystem;
     private readonly Camera _camera;
-
-    private const int CLICK_DAMAGE = 1;
 
     public MolesCatcher(InputSystem inputSystem)
     {
@@ -20,13 +19,16 @@ public class MolesCatcher : IDisposable
     {
         RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out hit))
-        {
-            if(hit.collider.TryGetComponent(out Mole mole))
-            {
-                mole.ApplyDamage(CLICK_DAMAGE);
-            }
-        }
+        if (Physics.Raycast(ray, out hit) == false)
+            return;
+
+        if (hit.collider.TryGetComponent(out Mole mole) == false)
+            return;
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        mole.ApplyDamage();
     }
 
     public void Dispose()

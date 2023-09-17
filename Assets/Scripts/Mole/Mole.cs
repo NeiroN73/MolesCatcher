@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mole : MonoBehaviour
 {
-    [SerializeField] private MoleFactory _config;
+    [SerializeField] private MoleConfig _config;
 
     private int _currentHealth;
 
@@ -18,9 +18,9 @@ public class Mole : MonoBehaviour
         StartCoroutine(EscapeTimer());
     }
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage()
     {
-        _currentHealth -= damage;
+        _currentHealth--;
 
         if(_currentHealth <= 0)
         {
