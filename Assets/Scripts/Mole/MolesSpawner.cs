@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
 public class MolesSpawner : ITickable
 {
@@ -14,17 +11,12 @@ public class MolesSpawner : ITickable
 
     private float _time;
 
-    [Inject]
-    private void Construct(Health health, Score score)
-    {
-        _health = health;
-        _score = score;
-    }
-
-    public MolesSpawner(GameBoard gameBoard, MolesSpawnerConfigSO molesSpawnerConfigSO)
+    public MolesSpawner(GameBoard gameBoard, MolesSpawnerConfigSO molesSpawnerConfigSO, Health health, Score score)
     {
         _gameBoard = gameBoard;
         _molesSpawnerConfigSO = molesSpawnerConfigSO;
+        _health = health;
+        _score = score;
 
         _moleFactory = new();
 
@@ -41,8 +33,10 @@ public class MolesSpawner : ITickable
                 var hole = _gameBoard.GetRandomEmptyHole();
                 var randomPrefab = _molesSpawnerConfigSO.MolePrefabs[Random.Range(0, _molesSpawnerConfigSO.MolePrefabs.Count)];
                 var mole = _moleFactory.GetMole(randomPrefab, hole.position);
+
                 mole.Catched += _score.AddScore;
-                mole.Escaped += _health.TakeDamage;
+                if(_health != null)
+                    mole.Escaped += _health.TakeDamage;
             }
 
             _time = _molesSpawnerConfigSO.SpawnDelay;

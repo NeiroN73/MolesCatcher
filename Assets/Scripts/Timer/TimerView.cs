@@ -1,18 +1,18 @@
 ﻿using TMPro;
 using UnityEngine;
-using Zenject;
 
 public class TimerView : BaseUI
 {
     [SerializeField] private TextMeshProUGUI _timerText;
 
-    [Inject] private Timer _timer;
+    private Timer _timer;
 
-    public void Initialize()
+    public void Initialize(Timer timer)
     {
-        Show();
-
+        _timer = timer;
         _timer.TimeChanged += OnChangedTime;
+        OnChangedTime(_timer.TimerConfigSO.StartTime);
+        Show();
     }
 
     public void OnChangedTime(float time)

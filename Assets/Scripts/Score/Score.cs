@@ -1,34 +1,31 @@
 ﻿using System;
 using UnityEngine;
 
-public class Score : IDisposable, IVictoryCondition
+public class Score : IVictoryCondition
 {
     private int _score = 0;
+    public ScoreConfigSO ScoreConfigSO { get; }
 
-    private ScoreConfigSO _scoreConfigSO;
+    public event Action<int> ScoreChanged;
+    public event Action ConditionCompleted;
 
     public Score(ScoreConfigSO scoreConfigSO)
     {
-        _scoreConfigSO = scoreConfigSO;
+        ScoreChanged?.Invoke(_score);
+        ScoreConfigSO = scoreConfigSO;
     }
 
-    public event Action<int> ValueChanged;
-    public event Action ConditionCompleted;
 
     public void AddScore(int reward)
     {
-        var value = reward * _scoreConfigSO.CatchingRewardCoefficient;
+        var value = reward * ScoreConfigSO.CatchingRewardCoefficient;
         _score += Mathf.CeilToInt(value);
-        ValueChanged?.Invoke(_score);
 
-        if (_score >= _scoreConfigSO.WinningScore)
+        if (_score >= ScoreConfigSO.WinningScore)
         {
             ConditionCompleted?.Invoke();
         }
-    }
 
-    public void Dispose()
-    {
-        //_molesContainer.MoleCatchingReward -= OnScoreAdded;
+        ScoreChanged?.Invoke(_score);
     }
 }

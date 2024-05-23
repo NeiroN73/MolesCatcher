@@ -1,26 +1,26 @@
 ﻿using TMPro;
 using UnityEngine;
-using Zenject;
 
 public class ScoreView : BaseUI
 {
-    [SerializeField] private TextMeshProUGUI _text;
-    [Inject] private Score _score;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    private Score _score;
 
-    public void Initialize()
+    public void Initialize(Score score)
     {
+        _score = score;
+        _score.ScoreChanged += OnScoreChanged;
+        OnScoreChanged(0);
         Show();
-        _score.ValueChanged += OnValueChanged;
     }
 
-    public void OnValueChanged(int value)
+    public void OnScoreChanged(int value)
     {
-        Debug.Log("view");
-        _text.text = value.ToString();
+        _scoreText.text = value.ToString();
     }
 
     private void OnDisable()
     {
-        _score.ValueChanged -= OnValueChanged;
+        _score.ScoreChanged -= OnScoreChanged;
     }
 }

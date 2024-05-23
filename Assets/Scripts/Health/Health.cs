@@ -1,9 +1,10 @@
 ﻿using System;
-using UnityEngine;
 
-public class Health : IDisposable, IDefeatCondition
+public class Health : IDefeatCondition
 {
     private int _health;
+
+    public HealthConfigSO HealthConfigSO { get; }
 
     public event Action<int> HealthChanged;
     public event Action ConditionCompleted;
@@ -11,32 +12,19 @@ public class Health : IDisposable, IDefeatCondition
     public Health(HealthConfigSO healthConfigSO)
     {
         _health = healthConfigSO.StartHealth;
+        HealthConfigSO = healthConfigSO;
     }
 
     public void TakeDamage(int damage)
     {
         _health -= damage;
-        HealthChanged?.Invoke(_health);
 
         if (_health < 1)
         {
             _health = 0;
             ConditionCompleted?.Invoke();
         }
+
+        HealthChanged?.Invoke(_health);
     }
-
-    public void Dispose()
-    {
-        //_molesContainer.PlayerDamaged -= OnDamageApplied;
-    }
-}
-
-public interface IDefeatCondition
-{
-    public event Action ConditionCompleted;
-}
-
-public interface IVictoryCondition
-{
-    public event Action ConditionCompleted;
 }

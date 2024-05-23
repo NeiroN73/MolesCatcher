@@ -15,10 +15,10 @@ public class MolesCatcher : IDisposable
         _inputSystem.Clicked += OnClicked;
     }
 
-    private void OnClicked()
+    private void OnClicked(Vector3 mousePosition)
     {
         RaycastHit hit;
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _camera.ScreenPointToRay(mousePosition);
         if (Physics.Raycast(ray, out hit) == false)
             return;
 
