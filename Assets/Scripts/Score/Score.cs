@@ -1,41 +1,34 @@
 ﻿using System;
 using UnityEngine;
 
-public class Score : MonoBehaviour, IDisposable
+public class Score : IDisposable, IVictoryCondition
 {
-    [SerializeField] private ScoreView _scoreView;
-    [SerializeField] private int _winningScore;
-    [SerializeField] private float _catchingRewardCoefficient;
+    private int _score = 0;
 
-    private MolesContainer _molesContainer;
-    private EndGameHandler _endGameHandler;
-    private int _score;
+    private ScoreConfigSO _scoreConfigSO;
 
-    public void Initialize(MolesContainer molesHandler, EndGameHandler restartHandler)
+    public Score(ScoreConfigSO scoreConfigSO)
     {
-        _molesContainer = molesHandler;
-        _endGameHandler = restartHandler;
-
-        _molesContainer.MoleCatchingReward += OnScoreAdded;
-
-        _scoreView.Initialize();
-        _scoreView.ChangeScore(_score);
+        _scoreConfigSO = scoreConfigSO;
     }
 
-    private void OnScoreAdded(int reward)
-    {
-        var value = reward * _catchingRewardCoefficient;
-        _score += (int)value;
-        _scoreView.ChangeScore(_score);
+    public event Action<int> ValueChanged;
+    public event Action ConditionCompleted;
 
-        if (_score >= _winningScore)
+    public void AddScore(int reward)
+    {
+        var value = reward * _scoreConfigSO.CatchingRewardCoefficient;
+        _score += Mathf.CeilToInt(value);
+        ValueChanged?.Invoke(_score);
+
+        if (_score >= _scoreConfigSO.WinningScore)
         {
-            _endGameHandler.WinGame();
+            ConditionCompleted?.Invoke();
         }
     }
 
     public void Dispose()
     {
-        _molesContainer.MoleCatchingReward -= OnScoreAdded;
+        //_molesContainer.MoleCatchingReward -= OnScoreAdded;
     }
 }

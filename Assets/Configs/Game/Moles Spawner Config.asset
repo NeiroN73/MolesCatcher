@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a7f40e8c0cb9649a61e05cecebb34b, type: 3}
+  m_Name: Moles Spawner Config
+  m_EditorClassIdentifier: 
+  <MolePrefabs>k__BackingField:
+  - {fileID: 4777263184358251003, guid: 3ffb1a69f692dc94bbd18186e4599cbc, type: 3}
+  - {fileID: 4777263184358251003, guid: 73e0f7a45e3071042baba0c75e0de90e, type: 3}
+  - {fileID: 4777263184358251003, guid: 5f5113629bfa3b14d8044e7ab4a6d5f1, type: 3}
+  <SpawnDelay>k__BackingField: 1

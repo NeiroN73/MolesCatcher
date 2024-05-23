@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
-public class InputSystem : IUpdateable
+public class InputSystem : ITickable
 {
     public event Action Clicked;
 

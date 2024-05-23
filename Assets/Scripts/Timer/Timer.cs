@@ -1,31 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Zenject;
 
-public class Timer : MonoBehaviour, IUpdateable
+public class Timer : ITickable, IDefeatCondition
 {
-    [SerializeField] private TimerView _timerView;
-    [SerializeField] private int _gameTime;
-
-    private EndGameHandler _endGameHandler;
     private float _timerProgress;
 
-    public void Initialize(EndGameHandler restartHandler)
+    public event Action TimeOver;
+    public event Action<float> TimeChanged;
+    public event Action ConditionCompleted;
+
+    public Timer(TimerConfigSO timerConfigSO)
     {
-        _endGameHandler = restartHandler;
-
-        _timerView.Initialize();
-
-        _timerProgress = _gameTime;
+        _timerProgress = timerConfigSO.StartTime;
     }
 
     public void Tick()
     {
         _timerProgress -= Time.deltaTime;
-        _timerView.ChangeTime(_timerProgress);
+        TimeChanged?.Invoke(_timerProgress);
 
-        if (_timerProgress < 0)
+        if (_timerProgress <= 0)
         {
             _timerProgress = 0;
-            _endGameHandler.LoseGame();
+            TimeOver?.Invoke();
+            ConditionCompleted?.Invoke();
         }
     }
 }

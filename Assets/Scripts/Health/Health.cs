@@ -1,40 +1,42 @@
 ﻿using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDisposable
+public class Health : IDisposable, IDefeatCondition
 {
-    [SerializeField] private HealthView _healthView;
-    [SerializeField] private int _health;
+    private int _health;
 
-    private MolesContainer _molesContainer;
-    private EndGameHandler _endGameHandler;
+    public event Action<int> HealthChanged;
+    public event Action ConditionCompleted;
 
-    public void Initialize(MolesContainer molesHandler, EndGameHandler restartHandler)
+    public Health(HealthConfigSO healthConfigSO)
     {
-        _molesContainer = molesHandler;
-        _endGameHandler = restartHandler;
-
-        _molesContainer.PlayerDamaged += OnDamageApplied;
-
-        _healthView.Initialize();
-        _healthView.ChangeHealth(_health);
+        _health = healthConfigSO.StartHealth;
     }
 
-    private void OnDamageApplied(int damage)
+    public void TakeDamage(int damage)
     {
         _health -= damage;
-        _healthView.ChangeHealth(_health);
+        HealthChanged?.Invoke(_health);
 
         if (_health < 1)
         {
             _health = 0;
-            _healthView.ChangeHealth(_health);
-            _endGameHandler.LoseGame();
+            ConditionCompleted?.Invoke();
         }
     }
 
     public void Dispose()
     {
-        _molesContainer.PlayerDamaged -= OnDamageApplied;
+        //_molesContainer.PlayerDamaged -= OnDamageApplied;
     }
+}
+
+public interface IDefeatCondition
+{
+    public event Action ConditionCompleted;
+}
+
+public interface IVictoryCondition
+{
+    public event Action ConditionCompleted;
 }

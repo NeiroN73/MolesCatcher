@@ -8,18 +8,20 @@ public class MolesContainer
     public event Action<int> MoleCatchingReward;
     public event Action<int> PlayerDamaged;
 
+    private Health _health;
+
     public void AddMole(Mole mole)
     {
         _moles.Add(mole);
-        mole.MoleCatched += OnMoleDied;
-        mole.MoleEscaped += OnMoleEscaped;
+        //mole.Catched += OnMoleDied;
+        //mole.Escaped += OnMoleEscaped;
     }
 
     public void RemoveMole(Mole mole)
     {
         _moles.Remove(mole);
-        mole.MoleCatched -= OnMoleDied;
-        mole.MoleEscaped -= OnMoleEscaped;
+        //mole.Catched -= OnMoleDied;
+        //mole.Escaped -= OnMoleEscaped;
     }
 
     private void OnMoleDied(Mole mole, int reward)

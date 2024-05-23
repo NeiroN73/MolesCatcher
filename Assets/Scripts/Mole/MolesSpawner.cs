@@ -1,38 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class MolesSpawner : MonoBehaviour
+public class MolesSpawner : ITickable
 {
-    [SerializeField] private List<Mole> _molePrefabs = new();
-    [SerializeField] private int _spawnDelay;
-
     private GameBoard _gameBoard;
-    private MolesContainer _molesContainer;
+    private MolesSpawnerConfigSO _molesSpawnerConfigSO;
     private MoleFactory _moleFactory;
 
-    public void Initialize(GameBoard gameBoard, MolesContainer molesHandler)
-    {
-        _gameBoard = gameBoard;
-        _molesContainer = molesHandler;
-        _moleFactory = new();
+    private Health _health;
+    private Score _score;
 
-        StartCoroutine(SpawnMole());
+    private float _time;
+
+    [Inject]
+    private void Construct(Health health, Score score)
+    {
+        _health = health;
+        _score = score;
     }
 
-    private IEnumerator SpawnMole()
+    public MolesSpawner(GameBoard gameBoard, MolesSpawnerConfigSO molesSpawnerConfigSO)
     {
-        while (true)
+        _gameBoard = gameBoard;
+        _molesSpawnerConfigSO = molesSpawnerConfigSO;
+
+        _moleFactory = new();
+
+        _time = _molesSpawnerConfigSO.SpawnDelay;
+    }
+
+    public void Tick()
+    {
+        _time -= Time.deltaTime;
+        if(_time <= 0)
         {
             if (_gameBoard.SearchEmptyHole())
             {
                 var hole = _gameBoard.GetRandomEmptyHole();
-                var randomPrefab = _molePrefabs[Random.Range(0, _molePrefabs.Count)];
+                var randomPrefab = _molesSpawnerConfigSO.MolePrefabs[Random.Range(0, _molesSpawnerConfigSO.MolePrefabs.Count)];
                 var mole = _moleFactory.GetMole(randomPrefab, hole.position);
-                mole.Initialize();
-                _molesContainer.AddMole(mole);
+                mole.Catched += _score.AddScore;
+                mole.Escaped += _health.TakeDamage;
             }
-            yield return new WaitForSeconds(_spawnDelay);
+
+            _time = _molesSpawnerConfigSO.SpawnDelay;
         }
     }
 }

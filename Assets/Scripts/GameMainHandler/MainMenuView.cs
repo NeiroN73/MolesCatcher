@@ -10,7 +10,7 @@ public class MainMenuView : BaseUI
     public event Action HealthModeSelected;
     public event Action TimerModeSelected;
 
-    public void Initialize()
+    public void Start()
     {
         Show();
 

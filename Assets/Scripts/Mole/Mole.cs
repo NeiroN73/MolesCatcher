@@ -8,8 +8,8 @@ public class Mole : MonoBehaviour
 
     private int _currentHealth;
 
-    public event Action<Mole, int> MoleCatched;
-    public event Action<Mole, int> MoleEscaped;
+    public event Action<int> Catched;
+    public event Action<int> Escaped;
 
     public void Initialize()
     {
@@ -24,7 +24,7 @@ public class Mole : MonoBehaviour
 
         if(_currentHealth <= 0)
         {
-            MoleCatched?.Invoke(this, _config.Health);
+            Catched?.Invoke(_config.Health);
             PlayParticle(_config.CatchParticle);
             Destroy(gameObject);
         }
@@ -33,7 +33,7 @@ public class Mole : MonoBehaviour
     private IEnumerator EscapeTimer()
     {
         yield return new WaitForSeconds(_config.Time);
-        MoleEscaped?.Invoke(this, _config.Time);
+        Escaped?.Invoke(_config.Time);
         PlayParticle(_config.EcsapeParticle);
         Destroy(gameObject);
     }
