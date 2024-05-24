@@ -3,11 +3,13 @@ using UnityEngine;
 public class CameraHandler
 {
     private GameBoard _gameBoard;
+    private CameraConfigSO _cameraConfigSO;
     private Camera _camera;
 
-    public CameraHandler(GameBoard gameBoard)
+    public CameraHandler(GameBoard gameBoard, CameraConfigSO cameraConfigSO)
     {
         _gameBoard = gameBoard;
+        _cameraConfigSO = cameraConfigSO;
         _camera = Camera.main;
 
         SetCameraHeight();
@@ -16,26 +18,13 @@ public class CameraHandler
     private void SetCameraHeight()
     {
         _camera.transform.position = Vector3.zero;
-        for (int i = 0; i < 1000; i++)
-        {
-            float distance = Vector3.Distance(_gameBoard.transform.position, _camera.transform.position);
 
-            Vector3 leftBot = _camera.ScreenToWorldPoint(new Vector3(0, 0, distance));
-            Vector3 rightTop = _camera.ScreenToWorldPoint(
-                new Vector3(_camera.pixelWidth, _camera.pixelHeight, distance));
+        float maxDistance = Mathf.Max(
+            Vector3.Distance(_gameBoard.transform.position, _gameBoard.GetLeftDownCorner()),
+            Vector3.Distance(_gameBoard.transform.position, _gameBoard.GetRightUpCorner()));
 
-            if (_gameBoard.GetLeftDownCorner().x > leftBot.x ||
-                _gameBoard.GetRightUpCorner().x < rightTop.x)
-            {
-                return;
-            }
-            else
-            {
-                _camera.transform.position =
-                    new Vector3(_camera.transform.position.x,
-                    _camera.transform.position.y + 1,
-                    _camera.transform.position.z);
-            }
-        }
+        _camera.transform.position = new Vector3(_camera.transform.position.x,
+            _camera.transform.position.y + maxDistance * _cameraConfigSO.CameraHeightOffset,
+            _camera.transform.position.z);
     }
 }

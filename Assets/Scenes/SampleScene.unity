@@ -694,13 +694,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameBoard: {fileID: 8411355905145833313}
-  _mainMenuView: {fileID: 2080209303}
   _healthView: {fileID: 394985134}
   _timerView: {fileID: 1914262173}
   _scoreView: {fileID: 131404925}
   _levelHandler: {fileID: 855522020}
   _molesSpawnerConfigSO: {fileID: 11400000, guid: b2cd89d2f79124740a541b9a37c5354a, type: 2}
   _gameboardConfigSO: {fileID: 11400000, guid: 44e7bc9674e66ba41bb01c6f544192dc, type: 2}
+  _cameraConfigSO: {fileID: 11400000, guid: ca89a587f8504cf41ac9d60f0b9a5aad, type: 2}
   _healthConfigSO: {fileID: 11400000, guid: 66924798cf10979469cac77e09bb9103, type: 2}
   _scoreConfigSO: {fileID: 11400000, guid: 4efce642c06f5f94399a9a9002f95303, type: 2}
   _timerConfigSO: {fileID: 11400000, guid: 09cd5b5bba70c72438fcc469325146d1, type: 2}
@@ -2235,6 +2235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec155ed6030f2a429cbb9746577b2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _installer: {fileID: 327918451}
   _healthModeButton: {fileID: 136821491}
   _timerModeButton: {fileID: 1858919337}
 --- !u!64 &222283881819157269

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Game Configs/Score Config", fileName = "Score Config")]
+[CreateAssetMenu(menuName = "Condition Configs/Score Config", fileName = "Score Config")]
 public class ScoreConfigSO : ScriptableObject
 {
     [field: SerializeField] public int WinningScore { get; private set; }
