@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -693,11 +693,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca7f489d12799a14393373ff31b7ac7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelHandler: {fileID: 855522020}
   _gameBoard: {fileID: 8411355905145833313}
   _healthView: {fileID: 394985134}
   _timerView: {fileID: 1914262173}
   _scoreView: {fileID: 131404925}
-  _levelHandler: {fileID: 855522020}
+  _mainMenuView: {fileID: 2080209303}
+  _restartMenuView: {fileID: 1718465805}
+  _endGameMessageConfigSO: {fileID: 11400000, guid: af3981331a0a69f49ab4f66903d482ef, type: 2}
   _molesSpawnerConfigSO: {fileID: 11400000, guid: b2cd89d2f79124740a541b9a37c5354a, type: 2}
   _gameboardConfigSO: {fileID: 11400000, guid: 44e7bc9674e66ba41bb01c6f544192dc, type: 2}
   _cameraConfigSO: {fileID: 11400000, guid: ca89a587f8504cf41ac9d60f0b9a5aad, type: 2}
@@ -1378,8 +1381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e285390bcce5fda4cb16bd646b3e81fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _restartMenuView: {fileID: 1718465805}
-  _endGameMessageConfigSO: {fileID: 11400000, guid: af3981331a0a69f49ab4f66903d482ef, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,7 +2236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec155ed6030f2a429cbb9746577b2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _installer: {fileID: 327918451}
   _healthModeButton: {fileID: 136821491}
   _timerModeButton: {fileID: 1858919337}
 --- !u!64 &222283881819157269

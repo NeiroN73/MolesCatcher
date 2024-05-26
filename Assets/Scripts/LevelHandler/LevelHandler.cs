@@ -4,17 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class LevelHandler : MonoBehaviour
 {
-    [SerializeField] private RestartMenuView _restartMenuView;
-    [SerializeField] private EndGameMessageConfigSO _endGameMessageConfigSO;
+    private RestartMenuView _restartMenuView;
+    private EndGameMessageConfigSO _endGameMessageConfigSO;
 
     private TimeState _timeState;
     private List<ITickable> _tickables = new();
     private bool _isRestarting;
 
-    public void Initialize(IDefeatCondition defeatCondition, IVictoryCondition victoryCondition)
+    public void Initialize(IDefeatCondition defeatCondition, IVictoryCondition victoryCondition,
+        RestartMenuView restartMenuView, EndGameMessageConfigSO endGameMessageConfigSO)
     {
         defeatCondition.ConditionCompleted += OnDefeat;
         victoryCondition.ConditionCompleted += OnVictory;
+        _restartMenuView = restartMenuView;
+        _endGameMessageConfigSO = endGameMessageConfigSO;
 
         _restartMenuView.RestartClicked += OnLevelRestarted;
 
@@ -25,6 +28,7 @@ public class LevelHandler : MonoBehaviour
     {
         _tickables.Add(molesSpawner);
         _tickables.Add(inputSystem);
+
         if(timer != null) 
             _tickables.Add(timer);
     }
@@ -59,9 +63,6 @@ public class LevelHandler : MonoBehaviour
 
     private void Update()
     {
-        if (_tickables.Count <= 0)
-            return;
-
         for (int i = 0; i < _tickables.Count; i++)
         {
             _tickables[i].Tick();

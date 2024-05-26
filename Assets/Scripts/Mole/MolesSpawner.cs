@@ -34,7 +34,8 @@ public class MolesSpawner : ITickable
                 var randomPrefab = _molesSpawnerConfigSO.MolePrefabs[Random.Range(0, _molesSpawnerConfigSO.MolePrefabs.Count)];
                 var mole = _moleFactory.GetMole(randomPrefab, hole.position);
 
-                mole.Catched += _score.AddScore;
+                if(_score != null)
+                    mole.Catched += _score.AddScore;
                 if(_health != null)
                     mole.Escaped += _health.TakeDamage;
             }
